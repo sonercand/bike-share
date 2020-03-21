@@ -1,3 +1,5 @@
 #files
 my_answers.py
 Your_first_neural_network.ipynb
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
