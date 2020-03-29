@@ -31,9 +31,11 @@ class Network():
 
         self.weights_output = np.random.normal(0.0, self.hidden_nodes**-0.5, 
                                        (self.hidden_nodes, self.output_nodes))
+        self.delta_weights_hidden = np.zeros(self.weights_hidden.shape)
+        self.delta_weights_output = np.zeros(self.weights_output.shape)
         self.sigmoid = lambda x: 1/(1+np.exp(-x))
         self.sigmoid_derivative = lambda x: x*(1-x)
-        
+
     def print_network(self):
         input_layer = 'number of input features = {}'.format(self.input_nodes)
         hidden_layer = 'number of parameters to be trained = {}'.format(self.input_nodes*hidden_nodes)
@@ -54,3 +56,18 @@ class Network():
         activated_hidden_layer = self.sigmoid(hidden_layer)
         output_layer = np.dot(activated_hidden_layer,self.weights_output)
         return output_layer, activated_hidden_layer
+
+    def backpropagation(self,X,y,output_layer,activated_hidden_layer):
+
+        error = y - output_layer
+        self.delta_weights_output += output_layer* activated_hidden_layer[:,None]
+        # error per weight in hidden layer = outputxerror
+        hidden_error = np.dot(self.weights_output,error) # backprop the error: contribution of each coefficient in the hidden layer to error
+        hidden_error_grad = hidden_error*self.sigmoid_derivative(activated_hidden_layer)
+        self.delta_weights_hidden += hidden_error_grad*X[:,None]
+    
+    def weight_update(self,n_records):
+        self.weights_hidden += self.learning_rate*self.delta_weights_hidden/n_records
+        self.weights_output += self.learning_rate*self.delta_weights_output/n_records
+    
+    def train()
