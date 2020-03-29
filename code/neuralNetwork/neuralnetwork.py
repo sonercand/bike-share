@@ -40,7 +40,7 @@ class Network():
         input_layer = 'number of input features = {}'.format(self.input_nodes)
         hidden_layer = 'number of parameters to be trained = {}'.format(self.input_nodes*hidden_nodes)
         output_layer = 'number of parameters to be trained = {}'.format(self.hidden_nodes*self.output_nodes) 
-        total_num_param = 'total number of parameters = {}'.format((self.input_nodes+self.output_nodes)*hidden_nodes)
+        total_num_param = 'total number of parameters = {}'.format((self.input_nodes+self.output_nodes)*self.hidden_nodes)
         print(input_layer+'\n'+hidden_layer+'\n'+output_layer+'\n'+total_num_param)
 
     def forward_pass(self,X):
