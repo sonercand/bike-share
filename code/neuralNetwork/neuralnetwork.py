@@ -70,4 +70,20 @@ class Network():
         self.weights_hidden += self.learning_rate*self.delta_weights_hidden/n_records
         self.weights_output += self.learning_rate*self.delta_weights_output/n_records
     
-    def train()
+    def train(self, features, targets):
+        n_records = features.shape[0]
+        self.delta_weights_hidden = np.zeros(self.weights_hidden.shape) # reset delta weights to zero for each training
+        self.delta_weights_output = np.zeros(self.weights_output.shape)
+        for X,y in zip(features,targets):
+            # forward pass
+            output_layer, activated_hidden_layer = self.forward_pass_train(X)
+            # backprob - update delta weights
+            self.backpropagation(X,y,output_layer,activated_hidden_layer)
+        self.weight_update(n_records)
+    
+    def forward_run(self,features):
+        input_layer = features
+        hidden_layer = np.dot(input_layer,self.weights_hidden) 
+        activated_hidden_layer = self.sigmoid(hidden_layer)
+        output_layer = np.dot(activated_hidden_layer,self.weights_output)
+        return output_layer
