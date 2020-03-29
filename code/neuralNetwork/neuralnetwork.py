@@ -35,13 +35,14 @@ class Network():
         self.delta_weights_output = np.zeros(self.weights_output.shape)
         self.sigmoid = lambda x: 1/(1+np.exp(-x))
         self.sigmoid_derivative = lambda x: x*(1-x)
+        print(self.print_network())
 
     def print_network(self):
         input_layer = 'number of input features = {}'.format(self.input_nodes)
-        hidden_layer = 'number of parameters to be trained = {}'.format(self.input_nodes*hidden_nodes)
+        hidden_layer = 'number of parameters to be trained = {}'.format(self.input_nodes*self.hidden_nodes)
         output_layer = 'number of parameters to be trained = {}'.format(self.hidden_nodes*self.output_nodes) 
         total_num_param = 'total number of parameters = {}'.format((self.input_nodes+self.output_nodes)*self.hidden_nodes)
-        print(input_layer+'\n'+hidden_layer+'\n'+output_layer+'\n'+total_num_param)
+        return input_layer+'\n'+hidden_layer+'\n'+output_layer+'\n'+total_num_param
 
     def forward_pass(self,X):
         '''
@@ -76,7 +77,7 @@ class Network():
         self.delta_weights_output = np.zeros(self.weights_output.shape)
         for X,y in zip(features,targets):
             # forward pass
-            output_layer, activated_hidden_layer = self.forward_pass_train(X)
+            output_layer, activated_hidden_layer = self.forward_pass(X)
             # backprob - update delta weights
             self.backpropagation(X,y,output_layer,activated_hidden_layer)
         self.weight_update(n_records)
